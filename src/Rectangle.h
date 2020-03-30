@@ -5,6 +5,7 @@ class Rectangle
   Rectangle();
   Rectangle(double w, double h);
   ~Rectangle() {}
+  double getArea();
   //! расчет возможности упаковки в контейнер размером (w, h)
   //! возвращает возможность упаковки
   // @arg w - длина контейнера

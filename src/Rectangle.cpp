@@ -12,6 +12,11 @@ Rectangle::Rectangle(double w, double h):
 {
 }
 
+double Rectangle::getArea()
+{
+  return this->width * this->height;
+}
+
 std::string Rectangle::getString()
 {
   return std::string(
