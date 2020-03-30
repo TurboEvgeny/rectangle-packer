@@ -11,3 +11,13 @@ Rectangle::Rectangle(double w, double h):
   height(h)
 {
 }
+
+std::string Rectangle::getString()
+{
+  return std::string(
+   "w=" +
+   std::to_string(this->width) +
+   " h=" +
+   std::to_string(this->height)
+   );
+}

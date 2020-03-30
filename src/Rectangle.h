@@ -1,3 +1,4 @@
+#include <string>
 class Rectangle
 {
  public:
@@ -12,6 +13,8 @@ class Rectangle
   // @arg alphaMax - указатель на значение максимального угла поворота 
   // (углы поворота рассчитываются от 0 до 90 градусов)
   //bool packingPossible(double w, double h, double* alphaMin, double* alphaMax);
+  // строка с данными
+  std::string getString();
  private:
   //! длина прямоугольника
   double width;
