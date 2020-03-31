@@ -3,6 +3,7 @@
 #include <cmath>
 #include <memory>
 #include "Rectangle.h"
+#include "Container.h"
 #define MAX_RECTANGLES_NUMBER 100
 
 class WorkData
@@ -37,7 +38,7 @@ public:
 	// первая строчка - размер контейнера
 	if (iteration == 0)
 	{
-	  pContainer = std::make_unique<Rectangle>(w, h);
+	  pContainer = std::make_unique<Container>(w, h);
 	}
 	// остальные - размеры прямоугольников
 	else
@@ -53,7 +54,8 @@ public:
     if (pContainer != nullptr)
     {
       std::cout << "container param" << std::endl;
-      std::cout << pContainer->getString() << std::endl;
+      std::cout << "w=" << pContainer->getWidth();
+      std::cout << "h=" << pContainer->getHeight() << std::endl;
     }
     for (auto const& item : rectangles)
     {
@@ -63,7 +65,7 @@ public:
   }
 private:
   // объявляем контейнер
-  std::unique_ptr <Rectangle> pContainer;
+  std::unique_ptr <Container> pContainer;
   // хранилище данных о прямоугольниках
   std::vector <std::unique_ptr <Rectangle>> rectangles;
 };
