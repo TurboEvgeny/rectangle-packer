@@ -1,11 +1,25 @@
 #include <string>
+#include <vector>
+
+enum RectangleCorners
+{
+ RECTANGLE_LEFT_DOWN = 0,
+ RECTANGLE_LEFT_UP,
+ RECTANGLE_RIGHT_UP,
+ RECTANGLE_RIGHT_DOWN,
+ RECTANGLE_CORNERS
+};
+  
 class Rectangle
 {
  public:
   Rectangle(double w, double h);
   ~Rectangle() {}
+  // установка координат
+  void setCoordinates(double x0, double y0, double ang);
   // расчет площади
   double getArea();
+  // расчет координат прямоугольника
   // расчет пересечения с другим прямоугольником
   bool intersection(const Rectangle& other); 
   
@@ -24,10 +38,8 @@ class Rectangle
   double width;
   //! высота прямоугольника
   double height;
-  //! координаты базовой точки (левый нижний угол)
-  double x0;
-  double y0;
+  //! координаты точек
+  std::pair<double, double> coord[RECTANGLE_CORNERS];
   //! угол поворота, рад
   double angleRad;
-  
 };
