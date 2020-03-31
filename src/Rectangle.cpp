@@ -14,6 +14,12 @@ double Rectangle::getArea()
   return this->width * this->height;
 }
 
+// расчет пересечения с другим прямоугольником
+bool Rectangle::intersection(const Rectangle& other)
+{
+  return false;
+}
+
 std::string Rectangle::getString()
 {
   return std::string(

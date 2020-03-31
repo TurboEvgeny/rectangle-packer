@@ -4,7 +4,11 @@ class Rectangle
  public:
   Rectangle(double w, double h);
   ~Rectangle() {}
+  // расчет площади
   double getArea();
+  // расчет пересечения с другим прямоугольником
+  bool intersection(const Rectangle& other); 
+  
   //! расчет возможности упаковки в контейнер размером (w, h)
   //! возвращает возможность упаковки
   // @arg w - длина контейнера
