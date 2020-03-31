@@ -11,17 +11,17 @@ class MyVector
   x(xArg),
   y(yArg)
   {}
-  MyVector operator+(const MyVector& a)
+  friend MyVector operator+(const MyVector& lhs, const MyVector& rhs)
   {
-    return MyVector(a.x + this->x, a.y + this->y);
+    return MyVector(lhs.x + rhs.x, lhs.y + rhs.y);
   }
-  MyVector operator-(const MyVector& a)
+  friend MyVector operator-(const MyVector& lhs, const MyVector& rhs)
   {
-    return MyVector(this->x - a.x, this->y - a.y);
+    return MyVector(lhs.x - rhs.x, lhs.y - rhs.y);
   }
-  double dotProduct(const MyVector& a, const MyVector& b)
+  double dotProduct(const MyVector& other)
   {
-    return a.x*b.x + a.y*b.y;
+    return this->x * other.x + this->y * other.y;
   }
  private:
   double x;

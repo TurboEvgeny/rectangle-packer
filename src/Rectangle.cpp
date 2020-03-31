@@ -1,5 +1,6 @@
 #include "Rectangle.h"
 #include <cmath>
+#include <algorithm>
 
 Rectangle::Rectangle(double w, double h):
   width(w),
@@ -33,20 +34,56 @@ double Rectangle::getArea()
 }
 
 // расчет пересечения с другим прямоугольником
-bool Rectangle::intersection(const Rectangle& other)
+bool Rectangle::intersection(const Rectangle& other) const
 {
   // критерий пересечения -
   // проецируем все точки прямоугольников на линию,
-  // параллельную его всем его сторонам
-  // если обнаружили отсуствие пересечения хоть на одной проекции,
+  // параллельную всем его сторонам
+  // если проекции не пересекаются хотя бы на одной линии, 
   // значит пересечения нет
 
   // проекция рассчитывается с помощью скалярного произведения
   // у прямоугольника стороны параллельны поэтому на достаточно 2 проекции
   // для каждой фигуры
-  std::pair<double, double> vect[4];
-  //vect[0].first = 
-  return false;
+  MyVector vect[4];
+  vect[0] =
+    this->coord[RECTANGLE_LEFT_UP] - this->coord[RECTANGLE_LEFT_DOWN];
+  vect[1] =
+    this->coord[RECTANGLE_RIGHT_DOWN] - this->coord[RECTANGLE_LEFT_DOWN];
+  vect[2] =
+    other.coord[RECTANGLE_LEFT_UP] - other.coord[RECTANGLE_LEFT_DOWN];
+  vect[3] =
+    other.coord[RECTANGLE_RIGHT_DOWN] - other.coord[RECTANGLE_LEFT_DOWN];
+  // перебираем проекции
+  for (int i = 0 ; i < 4 ; i++)
+  {
+    // задаем контейнеры для хранения значений скалярных произведений
+    std::vector<double> dotProductsOur, dotProductsOther;
+    for (int j = 0 ; j < RECTANGLE_CORNERS ; j++)
+    {
+      dotProductsOur.emplace_back(vect[i].dotProduct(this->coord[j]));
+      dotProductsOther.emplace_back(vect[i].dotProduct(other.coord[j]));
+    }
+    // сравниваем минимальные и максимальные значения проекции
+    double ourMaxElement =
+      *std::max_element(dotProductsOur.begin(), dotProductsOur.end());
+    double ourMinElement =
+      *std::min_element(dotProductsOur.begin(), dotProductsOur.end());     
+    double otherMaxElement =
+      *std::max_element(dotProductsOther.begin(), dotProductsOther.end());
+    double otherMinElement =
+      *std::min_element(dotProductsOther.begin(), dotProductsOther.end());
+    // если проекция не пересекаются -
+    // можно смело говорить что прямоугольники не пересекаются 
+    if ( (ourMaxElement < otherMinElement) ||
+	 (otherMaxElement < ourMinElement))
+    {
+      return false;
+    }
+  }
+  // если мы дошли до конца цикла - значит пересечения всегда есть
+  // т.е прямоугольники пересекаются
+  return true;
 }
 
 std::string Rectangle::getString()

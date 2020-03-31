@@ -22,7 +22,7 @@ class Rectangle
   double getArea();
   // расчет координат прямоугольника
   // расчет пересечения с другим прямоугольником
-  bool intersection(const Rectangle& other); 
+  bool intersection(const Rectangle& other) const; 
   
   //! расчет возможности упаковки в контейнер размером (w, h)
   //! возвращает возможность упаковки
@@ -34,13 +34,14 @@ class Rectangle
   //bool packingPossible(double w, double h, double* alphaMin, double* alphaMax);
   // строка с данными
   std::string getString();
+
  private:
   //! длина прямоугольника
   double width;
   //! высота прямоугольника
   double height;
-  //! координаты точек
-  MyVector coord[RECTANGLE_CORNERS];
   //! угол поворота, рад
   double angleRad;
+  //! координаты точек
+  MyVector coord[RECTANGLE_CORNERS];
 };
