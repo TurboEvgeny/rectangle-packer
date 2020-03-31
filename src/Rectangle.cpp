@@ -1,14 +1,11 @@
 #include "Rectangle.h"
 
-Rectangle::Rectangle():
-  width(0),
-  height(0)
-{
-}
-
 Rectangle::Rectangle(double w, double h):
   width(w),
-  height(h)
+  height(h),
+  x0(0.0),
+  y0(0.0),
+  angleRad(0.0)
 {
 }
 

@@ -2,7 +2,6 @@
 class Rectangle
 {
  public:
-  Rectangle();
   Rectangle(double w, double h);
   ~Rectangle() {}
   double getArea();
@@ -21,4 +20,10 @@ class Rectangle
   double width;
   //! высота прямоугольника
   double height;
+  //! координаты базовой точки (левый нижний угол)
+  double x0;
+  double y0;
+  //! угол поворота, рад
+  double angleRad;
+  
 };

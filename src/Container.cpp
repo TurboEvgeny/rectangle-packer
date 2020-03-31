@@ -1,22 +1,22 @@
 #include "Container.h"
 
-Container::Container(int w, int h):
+Container::Container(double w, double h):
   width(w),
   height(h)
 {
 }
 
-int Container::getArea()
+double Container::getArea()
 {
   return this->width * this->height;
 }
 
-int Container::getWidth()
+double Container::getWidth()
 {
   return this->width;
 }
 
-int Container::getHeight()
+double Container::getHeight()
 {
   return this->height;
 }

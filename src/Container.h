@@ -4,15 +4,15 @@ class Container
 {
  public:
   Container() {}
-  Container(int w, int h);
+  Container(double w, double h);
   // площадь контейнера
-  int getArea();
+  double getArea();
   // высота контейнера
-  int getHeight();
+  double getHeight();
   // длина контейнера
-  int getWidth();
+  double getWidth();
  private:
   // параметры контейнера
-  int width;
-  int height;
+  double width;
+  double height;
 };
