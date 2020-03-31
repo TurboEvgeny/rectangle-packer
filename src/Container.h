@@ -3,7 +3,6 @@
 class Container
 {
  public:
-  Container() {}
   Container(double w, double h);
   // площадь контейнера
   double getArea();
