@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include "MyVector.h"
 
 enum RectangleCorners
 {
@@ -39,7 +40,7 @@ class Rectangle
   //! высота прямоугольника
   double height;
   //! координаты точек
-  std::pair<double, double> coord[RECTANGLE_CORNERS];
+  MyVector coord[RECTANGLE_CORNERS];
   //! угол поворота, рад
   double angleRad;
 };

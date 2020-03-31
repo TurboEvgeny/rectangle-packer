@@ -12,21 +12,19 @@ Rectangle::Rectangle(double w, double h):
 // установка координат
 void Rectangle::setCoordinates(double x0, double y0, double ang)
 {
-  this->coord[RECTANGLE_LEFT_DOWN].first = x0;
-  this->coord[RECTANGLE_LEFT_DOWN].second = y0;
+  this->coord[RECTANGLE_LEFT_DOWN] = MyVector(x0, y0);
 
-  this->coord[RECTANGLE_LEFT_UP].first = x0 - this->height*sin(ang);
-  this->coord[RECTANGLE_LEFT_UP].second = y0 + this->height*cos(ang);
+  this->coord[RECTANGLE_LEFT_UP] = MyVector(
+    x0 - this->height*sin(ang),
+    y0 + this->height*cos(ang));
 
-  this->coord[RECTANGLE_RIGHT_UP].first =
-    x0 + this->width * cos(ang) - this->height*sin(ang);
-  this->coord[RECTANGLE_LEFT_UP].second =
-    y0 + this->width * sin(ang) + this->height*cos(ang);
+  this->coord[RECTANGLE_RIGHT_UP]= MyVector(
+    x0 + this->width * cos(ang) - this->height*sin(ang),
+    y0 + this->width * sin(ang) + this->height*cos(ang));
 
-  this->coord[RECTANGLE_RIGHT_DOWN].first =
-    x0 + this->width * cos(ang);
-  this->coord[RECTANGLE_RIGHT_DOWN].second =
-    y0 + this->width * sin(ang);
+  this->coord[RECTANGLE_RIGHT_DOWN] = MyVector(
+    x0 + this->width * cos(ang),
+    y0 + this->width * sin(ang));
 }
 
 double Rectangle::getArea()
@@ -42,7 +40,12 @@ bool Rectangle::intersection(const Rectangle& other)
   // параллельную его всем его сторонам
   // если обнаружили отсуствие пересечения хоть на одной проекции,
   // значит пересечения нет
-  other.width;
+
+  // проекция рассчитывается с помощью скалярного произведения
+  // у прямоугольника стороны параллельны поэтому на достаточно 2 проекции
+  // для каждой фигуры
+  std::pair<double, double> vect[4];
+  //vect[0].first = 
   return false;
 }
 
