@@ -23,17 +23,17 @@ class Rectangle
   // установка координат
   void setCoordinates(double x0, double y0, double ang);
   // расчет площади
-  double getArea();
+  double getArea() const;
   // расчет координат прямоугольника
   // расчет пересечения с другим прямоугольником
-  bool intersection(const Rectangle& other);
+  bool intersection(const Rectangle& other) const;
   // расчет вхождения в контейнер
-  bool packingCheck(const Container& container);
+  bool packingCheck(const Container& container) const;
   // расчет возможности упаковки в контейнер размером (w, h)
   // возвращает возможность упаковки
-  bool compatible(const Container& container);
+  bool compatible(const Container& container) const;
   // строка с данными
-  std::string getString();
+  std::string getString() const;
 
  private:
   //! длина прямоугольника

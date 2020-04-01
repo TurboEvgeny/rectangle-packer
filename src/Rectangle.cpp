@@ -29,14 +29,14 @@ void Rectangle::setCoordinates(double x0, double y0, double ang)
     y0 + this->width * sin(ang));
 }
 
-double Rectangle::getArea()
+double Rectangle::getArea() const
 {
   return this->width * this->height;
 }
 
 // расчет возможности упаковки в контейнер размером (w, h)
 // возвращает возможность упаковки
-bool Rectangle::compatible(const Container& container)
+bool Rectangle::compatible(const Container& container) const
 {
   // проверка простая -
   // если периметр нашего прямоугольника меньше периметра контейнера,
@@ -46,7 +46,7 @@ bool Rectangle::compatible(const Container& container)
     (container.getWidth() + container.getHeight());
 }
 // расчет вхождения в контейнерж
-bool Rectangle::packingCheck(const Container& container)
+bool Rectangle::packingCheck(const Container& container) const
 {
   // критерий вхождения - проекции прямоугольника на оси контейнера
   // попадают в отрезок, который образую вершины контейнера
@@ -68,7 +68,7 @@ bool Rectangle::packingCheck(const Container& container)
   return true;
 }
 // расчет пересечения с другим прямоугольником
-bool Rectangle::intersection(const Rectangle& other)
+bool Rectangle::intersection(const Rectangle& other) const
 {
   // критерий пересечения -
   // проецируем все точки прямоугольников на линию,
@@ -120,7 +120,7 @@ bool Rectangle::intersection(const Rectangle& other)
   return true;
 }
 
-std::string Rectangle::getString()
+std::string Rectangle::getString() const
 {
   return std::string(
    "w=" +
