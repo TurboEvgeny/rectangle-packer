@@ -23,6 +23,8 @@ class MyVector
   {
     return this->x * other.x + this->y * other.y;
   }
+  double getX() const { return this->x; }
+  double getY() const { return this->y; }
  private:
   double x;
   double y;

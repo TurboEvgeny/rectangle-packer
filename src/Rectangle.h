@@ -27,8 +27,8 @@ class Rectangle
   // расчет координат прямоугольника
   // расчет пересечения с другим прямоугольником
   bool intersection(const Rectangle& other);
-  // расчет пересечения с контейнером
-  bool intersection(const Container& container);
+  // расчет вхождения в контейнер
+  bool packingCheck(const Container& container);
   
   //! расчет возможности упаковки в контейнер размером (w, h)
   //! возвращает возможность упаковки

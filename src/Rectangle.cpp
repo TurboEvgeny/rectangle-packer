@@ -34,12 +34,27 @@ double Rectangle::getArea()
   return this->width * this->height;
 }
 
-bool Rectangle::intersection(const Container& container)
+// расчет вхождения в контейнерж
+bool Rectangle::packingCheck(const Container& container)
 {
-  // в нашей реализации контейнер это прямоугольник,
-  // поэтому пользуемся функцией проверки пересечения прямоугольников
-  Rectangle containerRectangle(container.getWidth(), container.getHeight());
-  return intersection(containerRectangle);
+  // критерий вхождения - проекции прямоугольника на оси контейнера
+  // попадают в отрезок, который образую вершины контейнера
+  for (int i = 0 ; i < RECTANGLE_CORNERS ; i++)
+  {
+    bool axes_x_notcompatible =
+      (this->coord[i].getX() < 0.0) ||
+      (container.getWidth() < this->coord[i].getX());
+    bool axes_y_not_compatible =
+      (this->coord[i].getY() < 0.0) ||
+      (container.getHeight() < this->coord[i].getY());
+    if (axes_x_notcompatible || axes_y_not_compatible)
+    {
+      return false;
+    }
+  }
+  // если мы успешно прошли все циклы -
+  //значит наш прямоугольник может войти в container
+  return true;
 }
 // расчет пересечения с другим прямоугольником
 bool Rectangle::intersection(const Rectangle& other)
