@@ -42,9 +42,19 @@ bool Rectangle::compatible(const Container& container) const
   // если периметр нашего прямоугольника меньше периметра контейнера,
   // то значит существует угол поворота, при котором наш прямоугольник
   // влезет в контейнер
-  return (this->width + this->height) <=
+  bool perimeterOk = (this->width + this->height) <=
     (container.getWidth() + container.getHeight());
+  bool areaOk = (this->getArea() < container.getArea());
+  return perimeterOk && areaOk;
 }
+
+// расчет возможности контейнера принять прямоугольник
+// исходя из доступной  площади
+bool Rectangle::insertAreaAvailable(const Container& container) const
+{
+  return this->getArea() < container.getAvailableArea();
+}
+
 // расчет вхождения в контейнерж
 bool Rectangle::packingCheck(const Container& container) const
 {

@@ -30,8 +30,10 @@ class Rectangle
   // расчет вхождения в контейнер
   bool packingCheck(const Container& container) const;
   // расчет возможности упаковки в контейнер размером (w, h)
-  // возвращает возможность упаковки
+  // возвращает теоретическую возможность упаковки
   bool compatible(const Container& container) const;
+  // расчет возможности контейнера принять прямоугольник исходя из площади
+  bool insertAreaAvailable(const Container& container) const;
   // строка с данными
   std::string getString() const;
 
