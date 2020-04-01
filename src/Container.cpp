@@ -3,7 +3,8 @@
 
 Container::Container(double w, double h):
   width(w),
-  height(h)
+  height(h),
+  availableArea(this->getArea())
 {
 }
 
@@ -25,15 +26,23 @@ double Container::getHeight() const
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
-  // начинаем проверять на пересечения
-  for (auto iter : rectangles)
+  if (pRectangle->getArea() > this->availableArea)
   {
-    if (iter->intersection(*pRectangle))
-    {
-      return false;
-    }
+    return false;
   }
-  // если пересечений нет - добавляем прямоугольник в список
-  rectangles.emplace_back(pRectangle);
-  return true;
+  else
+  {
+    // начинаем проверять на пересечения
+    for (auto iter : rectangles)
+    {
+      if (iter->intersection(*pRectangle))
+      {
+        return false;
+      }
+    }
+    // если пересечений нет - добавляем прямоугольник в список
+    rectangles.emplace_back(pRectangle);
+    this->availableArea -= pRectangle->getArea();
+    return true;
+  }
 }

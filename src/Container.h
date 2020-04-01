@@ -20,4 +20,6 @@ class Container
   // параметры контейнера
   double width;
   double height;
+  // доступная площадь
+  double availableArea;
 };
