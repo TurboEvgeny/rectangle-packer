@@ -26,6 +26,8 @@ double Container::getHeight() const
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
+  // если прямоугольник больше доступной площади,
+  // то его невозможно вставить 
   if (pRectangle->getArea() > this->availableArea)
   {
     return false;

@@ -53,6 +53,7 @@ public:
   void packContainers()
   {
     // первым дело сортируем прямоугольники по площади
+    // так как начинать вставку лучше с самых крупных
     std::sort(rectangles.begin(), rectangles.end(),
 	 [](const auto& lhs, const auto& rhs)
 	 {
