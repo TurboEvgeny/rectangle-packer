@@ -2,6 +2,7 @@
 #include <vector>
 #include <cmath>
 #include <memory>
+#include <algorithm>
 #include "Rectangle.h"
 #include "Container.h"
 #define MAX_RECTANGLES_NUMBER 100
@@ -49,15 +50,27 @@ public:
       }
     }      
   }
+  void packContainers()
+  {
+    // первым дело сортируем прямоугольники по площади
+    std::sort(rectangles.begin(), rectangles.end(),
+	 [](const auto& lhs, const auto& rhs)
+	 {
+	    return lhs->getArea() > rhs->getArea();
+	 });
+    
+  }
   void print()
   {
+    Rectangle test(0, 0);
     if (pContainer != nullptr)
     {
       std::cout << "container param" << std::endl;
-      std::cout << "w=" << pContainer->getWidth();
+      std::cout << "w=" << pContainer->getWidth() << " ";
       std::cout << "h=" << pContainer->getHeight() << std::endl;
+      test = Rectangle(pContainer->getWidth(), pContainer->getHeight());
     }
-    for (auto const& item : rectangles)
+    for (auto & item : rectangles)
     {
       std::cout << "rectangle param" << std::endl;
       std::cout << item->getString() << std::endl;
@@ -73,6 +86,7 @@ int main()
 {
   WorkData data;
   data.readInput();
+  data.packContainers();
   data.print();
   return 0;
 }
