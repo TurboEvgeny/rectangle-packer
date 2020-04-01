@@ -8,6 +8,8 @@ class Container
   Container(double w, double h);
   // площадь контейнера
   double getArea() const;
+  // доступная площадь
+  double getAvailableArea() const;
   // высота контейнера
   double getHeight() const;
   // длина контейнера

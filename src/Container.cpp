@@ -23,28 +23,24 @@ double Container::getHeight() const
   return this->height;
 }
 
+double Container::getAvailableArea() const
+{
+  return this->availableArea;
+}
+
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
-  // если прямоугольник больше доступной площади,
-  // то его невозможно вставить 
-  if (pRectangle->getArea() > this->availableArea)
+  // начинаем проверять на пересечения
+  for (auto iter : rectangles)
   {
-    return false;
-  }
-  else
-  {
-    // начинаем проверять на пересечения
-    for (auto iter : rectangles)
+    if (iter->intersection(*pRectangle))
     {
-      if (iter->intersection(*pRectangle))
-      {
-        return false;
-      }
+      return false;
     }
-    // если пересечений нет - добавляем прямоугольник в список
-    rectangles.emplace_back(pRectangle);
-    this->availableArea -= pRectangle->getArea();
-    return true;
   }
+  // если пересечений нет - добавляем прямоугольник в список
+  rectangles.emplace_back(pRectangle);
+  this->availableArea -= pRectangle->getArea();
+  return true;
 }
