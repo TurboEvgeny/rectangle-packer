@@ -5,11 +5,11 @@ class Container
  public:
   Container(double w, double h);
   // площадь контейнера
-  double getArea();
+  double getArea() const;
   // высота контейнера
-  double getHeight();
+  double getHeight() const;
   // длина контейнера
-  double getWidth();
+  double getWidth() const;
  private:
   // параметры контейнера
   double width;

@@ -6,17 +6,17 @@ Container::Container(double w, double h):
 {
 }
 
-double Container::getArea()
+double Container::getArea() const
 {
   return this->width * this->height;
 }
 
-double Container::getWidth()
+double Container::getWidth() const
 {
   return this->width;
 }
 
-double Container::getHeight()
+double Container::getHeight() const
 {
   return this->height;
 }
