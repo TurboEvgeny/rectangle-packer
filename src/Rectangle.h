@@ -10,7 +10,11 @@ enum RectangleCorners
  RECTANGLE_RIGHT_DOWN,
  RECTANGLE_CORNERS
 };
-  
+
+// forward-declaration for Container class
+// (используется для проверки пересечения)
+class Container;
+
 class Rectangle
 {
  public:
@@ -22,7 +26,9 @@ class Rectangle
   double getArea();
   // расчет координат прямоугольника
   // расчет пересечения с другим прямоугольником
-  bool intersection(const Rectangle& other) const; 
+  bool intersection(const Rectangle& other);
+  // расчет пересечения с контейнером
+  bool intersection(const Container& container);
   
   //! расчет возможности упаковки в контейнер размером (w, h)
   //! возвращает возможность упаковки

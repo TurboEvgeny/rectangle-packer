@@ -1,4 +1,5 @@
 #include "Rectangle.h"
+#include "Container.h"
 #include <cmath>
 #include <algorithm>
 
@@ -7,7 +8,7 @@ Rectangle::Rectangle(double w, double h):
   height(h),
   angleRad(0.0)
 {
-  this->setCoordinates(0.0, 0.0, angleRad);
+  this->setCoordinates(0.0, 0.0, 0.0);
 }
 
 // установка координат
@@ -33,8 +34,15 @@ double Rectangle::getArea()
   return this->width * this->height;
 }
 
+bool Rectangle::intersection(const Container& container)
+{
+  // в нашей реализации контейнер это прямоугольник,
+  // поэтому пользуемся функцией проверки пересечения прямоугольников
+  Rectangle containerRectangle(container.getWidth(), container.getHeight());
+  return intersection(containerRectangle);
+}
 // расчет пересечения с другим прямоугольником
-bool Rectangle::intersection(const Rectangle& other) const
+bool Rectangle::intersection(const Rectangle& other)
 {
   // критерий пересечения -
   // проецируем все точки прямоугольников на линию,
