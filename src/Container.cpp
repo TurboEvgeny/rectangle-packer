@@ -31,7 +31,12 @@ double Container::getAvailableArea() const
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
-  // начинаем проверять на пересечения
+  // сначала проверяем на вхождение в контейнер
+  if (!pRectangle->packingCheck(*this))
+  {
+    return false;
+  }
+  // потом начинаем проверять на пересечения 
   for (auto iter : rectangles)
   {
     if (iter->intersection(*pRectangle))
@@ -43,4 +48,14 @@ bool Container::insertRectangle(Rectangle* pRectangle)
   rectangles.emplace_back(pRectangle);
   this->availableArea -= pRectangle->getArea();
   return true;
+}
+
+void Container::print(int id) const
+{
+    for (auto iter : rectangles)
+    {
+        std::cout << id << ",";
+        iter->print();
+        std::cout << std::endl;
+    }
 }

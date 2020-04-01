@@ -58,16 +58,18 @@ bool Rectangle::insertAreaAvailable(const Container& container) const
 // расчет вхождения в контейнерж
 bool Rectangle::packingCheck(const Container& container) const
 {
+  // допустимая точность
+  const double eps = 1e-5;
   // критерий вхождения - проекции прямоугольника на оси контейнера
   // попадают в отрезок, который образую вершины контейнера
   for (int i = 0 ; i < RECTANGLE_CORNERS ; i++)
   {
     bool axes_x_notcompatible =
       (this->coord[i].getX() < 0.0) ||
-      (container.getWidth() < this->coord[i].getX());
+      ((container.getWidth() + eps) < this->coord[i].getX());
     bool axes_y_not_compatible =
       (this->coord[i].getY() < 0.0) ||
-      (container.getHeight() < this->coord[i].getY());
+      ((container.getHeight() + eps) < this->coord[i].getY());
     if (axes_x_notcompatible || axes_y_not_compatible)
     {
       return false;
@@ -130,12 +132,15 @@ bool Rectangle::intersection(const Rectangle& other) const
   return true;
 }
 
-std::string Rectangle::getString() const
+// строка с данными
+void Rectangle::print() const
 {
-  return std::string(
-   "w=" +
-   std::to_string(this->width) +
-   " h=" +
-   std::to_string(this->height)
-   );
+    for (int i = 0; i < RECTANGLE_CORNERS; i++)
+    {
+        this->coord[i].print();
+        if (i < (RECTANGLE_CORNERS - 1))
+        {
+            std::cout << ",";
+        }
+    }
 }

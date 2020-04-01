@@ -36,26 +36,26 @@ public:
       dataExists = (fabs(w) >=  eps) && (fabs(h) >= eps);
       if (dataExists)
       {
-	// первая строчка - размер контейнера
-	if (iteration == 0)
-	{
-	  this->containerW = w;
-	  this->containerH = h;
-	  containers.emplace_back(std::make_unique<Container>(w, h));
-	}
-	// остальные - размеры прямоугольников
-	else
-	{
-	  rectangles.emplace_back(std::make_unique<Rectangle>(w, h));
-	}
-	iteration++;
+     // первая строчка - размер контейнера
+     if (iteration == 0)
+     {
+       this->containerW = w;
+       this->containerH = h;
+       containers.emplace_back(std::make_unique<Container>(w, h));
+     }
+     // остальные - размеры прямоугольников
+     else
+     {
+       rectangles.emplace_back(std::make_unique<Rectangle>(w, h));
+     }
+     iteration++;
       }
     }      
   }
   bool insertItemToContainer(Container* pContainer, Rectangle* pRectangle)
   {
     // если доступной площади нет - сразу выходим
-    if (!pRectangle->insertAreaAvailable(*pContainer));
+    if (!pRectangle->insertAreaAvailable(*pContainer))
     {
       return false;
     }
@@ -86,10 +86,10 @@ public:
     // первым дело сортируем прямоугольники по площади
     // так как начинать вставку лучше с самых крупных
     std::sort(rectangles.begin(), rectangles.end(),
-	 [](const auto& lhs, const auto& rhs)
-	 {
-	    return lhs->getArea() > rhs->getArea();
-	 });
+      [](const auto& lhs, const auto& rhs)
+      {
+         return lhs->getArea() > rhs->getArea();
+      });
     // начинаем перебирать прямоугольники
     for (auto& pRectangle : rectangles)
     {
@@ -99,16 +99,16 @@ public:
       {
         Container* pContainer = containersIter->get();
         // если элемент не влезет в контейнер - просто пропускаем его
-	// (вдруг контейнеры будут разной формы)
+     // (вдруг контейнеры будут разной формы)
         if (!pRectangle->compatible(*pContainer))
         {
-	  break;
+       break;
         }
         else
-        {	  
+        {       
           insertion =
-	    insertItemToContainer(pContainer, pRectangle.get());
-	  ++containersIter;
+         insertItemToContainer(pContainer, pRectangle.get());
+       ++containersIter;
         }
       }
       // если не смогли вставить в существующие контейнеры -
@@ -116,37 +116,32 @@ public:
       if (!insertion)
       {
         containers.emplace_back(
-	   std::make_unique<Container>(containerW, containerH));
-        bool ok = false;
-	Container* pNewContainer = containers.back().get();
+        std::make_unique<Container>(containerW, containerH));
+        bool insertOk = false;
+        Container* pNewContainer = containers.back().get();
         // проверяем на совместимость с дефолтным новым контейнером
-	if (pRectangle->compatible(*pNewContainer))
-	{
-	  ok =
-	    insertItemToContainer(pNewContainer, pRectangle.get());
-	  if (!ok)
-	    std::cout << "Error!" << std::endl;
-	}
+        if (pRectangle->compatible(*pNewContainer))
+        {
+           insertOk = insertItemToContainer(pNewContainer, pRectangle.get());
+        }
+        // не подошел - удаляем контейнер
+        if (!insertOk)
+        {
+          containers.pop_back();
+        }
       }
     }
   }
   void print()
   {
-    Rectangle test(0, 0);
-    if (containers.size() > 0)
+    std::cout << containers.size() << ",";
+    std::cout << containerW << "," << containerH << std::endl;
+    int id = 0;
+    for (auto & item : containers)
     {
-      Container* pContainer = containers.front().get();
-      std::cout << "container param" << std::endl;
-      std::cout << "w=" << pContainer->getWidth() << " ";
-      std::cout << "h=" << pContainer->getHeight() << std::endl;
-      test = Rectangle(pContainer->getWidth(), pContainer->getHeight());
+        item->print(id);
+        id++;
     }
-    for (auto & item : rectangles)
-    {
-      std::cout << "rectangle param" << std::endl;
-      std::cout << item->getString() << std::endl;
-    }
-    
   }
 private:
   // объявляем контейнер
@@ -163,5 +158,7 @@ int main()
   data.readInput();
   data.packContainers();
   data.print();
+  int a = 4;
+  std::cin >> a;
   return 0;
 }

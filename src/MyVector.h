@@ -1,3 +1,4 @@
+#include <iostream>
 // реализация двумерного вектора с операторами сложения,
 // вычитания, скалярного произведения (все в прямоугольной ортогональной ск)
 class MyVector
@@ -22,6 +23,10 @@ class MyVector
   double dotProduct(const MyVector& other)
   {
     return this->x * other.x + this->y * other.y;
+  }
+  void print() const
+  {
+      std::cout << this->x << "," << this->y;
   }
   double getX() const { return this->x; }
   double getY() const { return this->y; }

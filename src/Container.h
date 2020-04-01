@@ -16,6 +16,8 @@ class Container
   double getWidth() const;
   // добавить прямоугольник в хранилище
   bool insertRectangle(Rectangle* pRectangle);
+  // распечатать содержимое
+  void print(int id) const;
  private:
   // хранилище прямугольников
   std::list <Rectangle*> rectangles;

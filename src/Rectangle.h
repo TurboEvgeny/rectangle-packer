@@ -35,7 +35,7 @@ class Rectangle
   // расчет возможности контейнера принять прямоугольник исходя из площади
   bool insertAreaAvailable(const Container& container) const;
   // строка с данными
-  std::string getString() const;
+  void print() const;
 
  private:
   //! длина прямоугольника
