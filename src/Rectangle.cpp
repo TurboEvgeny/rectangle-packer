@@ -34,6 +34,17 @@ double Rectangle::getArea()
   return this->width * this->height;
 }
 
+// расчет возможности упаковки в контейнер размером (w, h)
+// возвращает возможность упаковки
+bool Rectangle::compatible(const Container& container)
+{
+  // проверка простая -
+  // если периметр нашего прямоугольника меньше периметра контейнера,
+  // то значит существует угол поворота, при котором наш прямоугольник
+  // влезет в контейнер
+  return (this->width + this->height) <=
+    (container.getWidth() + container.getHeight());
+}
 // расчет вхождения в контейнерж
 bool Rectangle::packingCheck(const Container& container)
 {
