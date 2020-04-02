@@ -6,46 +6,59 @@ Container::Container(double w, double h):
   height(h),
   availableArea(this->getArea())
 {
+    // доступные для размещения углы
+    corners_x.insert(0.0);
+    corners_y.insert(0.0);
 }
 
 double Container::getArea() const
 {
-  return this->width * this->height;
+    return this->width * this->height;
 }
 
 double Container::getWidth() const
 {
-  return this->width;
+    return this->width;
 }
 
 double Container::getHeight() const
 {
-  return this->height;
+    return this->height;
 }
 
 double Container::getAvailableArea() const
 {
-  return this->availableArea;
+    return this->availableArea;
+}
+
+// выдача координат вершин 
+const std::unordered_set<double>& Container::getCorners_x() const
+{
+    return this->corners_x;
+}
+const std::unordered_set<double>& Container::getCorners_y() const
+{
+    return this->corners_y;
 }
 
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
-  // потом начинаем проверять на пересечения 
-  for (auto iter : rectangles)
-  {
-    if (iter->intersection(*pRectangle))
+    // потом начинаем проверять на пересечения 
+    for (auto iter : rectangles)
     {
-      return false;
+      if (iter->intersection(*pRectangle))
+      {
+        return false;
+      }
     }
-  }
-  // если пересечений нет - добавляем прямоугольник в список
-  rectangles.emplace_back(pRectangle);
-  // сохраняем координаты вершин
-  pRectangle->addCorners(this->corners_x, this->corners_y);
-  // уменьшаем доступную площадь
-  this->availableArea -= pRectangle->getArea();
-  return true;
+    // если пересечений нет - добавляем прямоугольник в список
+    rectangles.emplace_back(pRectangle);
+    // сохраняем координаты вершин
+    pRectangle->addCorners(this->corners_x, this->corners_y);
+    // уменьшаем доступную площадь
+    this->availableArea -= pRectangle->getArea();
+    return true;
 }
 
 void Container::print(int id) const
