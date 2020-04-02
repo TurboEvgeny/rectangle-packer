@@ -28,7 +28,8 @@ class Rectangle
   // расчет пересечения с другим прямоугольником
   bool intersection(const Rectangle& other) const;
   // расчет вхождения в контейнер
-  bool packingCheck(const Container& container) const;
+  bool packingCheck_axesX(const Container& container) const;
+  bool packingCheck_axesY(const Container& container) const;
   // расчет возможности упаковки в контейнер размером (w, h)
   // возвращает теоретическую возможность упаковки
   bool compatible(const Container& container) const;

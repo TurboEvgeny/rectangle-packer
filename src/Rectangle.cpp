@@ -56,7 +56,7 @@ bool Rectangle::insertAreaAvailable(const Container& container) const
 }
 
 // расчет вхождения в контейнерж
-bool Rectangle::packingCheck(const Container& container) const
+bool Rectangle::packingCheck_axesX(const Container& container) const
 {
   // допустимая точность
   const double eps = 1e-5;
@@ -67,10 +67,7 @@ bool Rectangle::packingCheck(const Container& container) const
     bool axes_x_notcompatible =
       (this->coord[i].getX() < 0.0) ||
       ((container.getWidth() + eps) < this->coord[i].getX());
-    bool axes_y_not_compatible =
-      (this->coord[i].getY() < 0.0) ||
-      ((container.getHeight() + eps) < this->coord[i].getY());
-    if (axes_x_notcompatible || axes_y_not_compatible)
+    if (axes_x_notcompatible)
     {
       return false;
     }
@@ -79,6 +76,29 @@ bool Rectangle::packingCheck(const Container& container) const
   //значит наш прямоугольник может войти в container
   return true;
 }
+
+// расчет вхождения в контейнерж
+bool Rectangle::packingCheck_axesY(const Container& container) const
+{
+    // допустимая точность
+    const double eps = 1e-5;
+    // критерий вхождения - проекции прямоугольника на оси контейнера
+    // попадают в отрезок, который образую вершины контейнера
+    for (int i = 0; i < RECTANGLE_CORNERS; i++)
+    {
+        bool axes_y_not_compatible =
+            (this->coord[i].getY() < 0.0) ||
+            ((container.getHeight() + eps) < this->coord[i].getY());
+        if (axes_y_not_compatible)
+        {
+            return false;
+        }
+    }
+    // если мы успешно прошли все циклы -
+    //значит наш прямоугольник может войти в container
+    return true;
+}
+
 // расчет пересечения с другим прямоугольником
 bool Rectangle::intersection(const Rectangle& other) const
 {

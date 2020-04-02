@@ -31,11 +31,6 @@ double Container::getAvailableArea() const
 // добавить прямоугольник в хранилище
 bool Container::insertRectangle(Rectangle* pRectangle)
 {
-  // сначала проверяем на вхождение в контейнер
-  if (!pRectangle->packingCheck(*this))
-  {
-    return false;
-  }
   // потом начинаем проверять на пересечения 
   for (auto iter : rectangles)
   {
