@@ -41,6 +41,9 @@ bool Container::insertRectangle(Rectangle* pRectangle)
   }
   // если пересечений нет - добавляем прямоугольник в список
   rectangles.emplace_back(pRectangle);
+  // сохраняем координаты вершин
+  pRectangle->addCorners(this->corners_x, this->corners_y);
+  // уменьшаем доступную площадь
   this->availableArea -= pRectangle->getArea();
   return true;
 }

@@ -77,6 +77,18 @@ bool Rectangle::packingCheck_axesX(const Container& container) const
   return true;
 }
 
+// добавить координаты вершин в unordered_set
+void Rectangle::addCorners(
+    std::unordered_set<double>& xSet,
+    std::unordered_set<double>& ySet)
+{
+    for (int i = 0; i < RECTANGLE_CORNERS; i++)
+    {
+        xSet.insert(this->coord[i].getX());
+        ySet.insert(this->coord[i].getY());
+    }
+}
+
 // расчет вхождения в контейнерж
 bool Rectangle::packingCheck_axesY(const Container& container) const
 {

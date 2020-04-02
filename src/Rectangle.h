@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <unordered_set>
 #include "MyVector.h"
 
 enum RectangleCorners
@@ -37,7 +38,10 @@ class Rectangle
   bool insertAreaAvailable(const Container& container) const;
   // строка с данными
   void print() const;
-
+  // добавить координаты вершин в unordered_set
+  void addCorners(
+      std::unordered_set<double>& xSet,
+      std::unordered_set<double>& ySet);
  private:
   //! длина прямоугольника
   double width;
