@@ -65,15 +65,16 @@ public:
         {
             for (auto y_coord : pContainer->getCorners_y())
             {
+                pRectangle->setCoordinates(x_coord, y_coord, 0.0);
                 // если не проходим по размеру - переходим к следующему варианту
                 if (!pRectangle->packingCheck_axesX(*pContainer) ||
                     !pRectangle->packingCheck_axesY(*pContainer))
                 {
                     continue;
                 }
-                pRectangle->setCoordinates(x_coord, y_coord, 0.0);
-                bool result = pContainer->insertRectangle(pRectangle);
-                if (result)
+                // пробуем добавить в контейнер - если все хрошо, 
+                // то выходим из функции
+                if (pContainer->insertRectangle(pRectangle))
                 {
                     return true;
                 }
@@ -89,7 +90,7 @@ public:
         std::sort(rectangles.begin(), rectangles.end(),
           [](const auto& lhs, const auto& rhs)
           {
-             return lhs->getArea() < rhs->getArea();
+             return lhs->getArea() > rhs->getArea();
           });
         // начинаем перебирать прямоугольники
         for (auto& pRectangle : rectangles)
@@ -102,13 +103,18 @@ public:
             // то значит и у нас вероятно не получится
             if (!insertion && (containers.size() > 0))
             {
-                Container* pContainer = containers.back().get();
-                // если элемент не влезет в контейнер - просто пропускаем его
-                // (вдруг контейнеры будут разной формы)
-                if (pRectangle->compatible(*pContainer))
+                auto containerIter = containers.begin();
+                while (!insertion && (containerIter != containers.end()))
                 {
-                    insertion =
-                        insertItemToContainer(pContainer, pRectangle.get());
+                    Container* pContainer = containerIter->get();
+                    // если элемент не влезет в контейнер - просто пропускаем его
+                    // (вдруг контейнеры будут разной формы)
+                    if (pRectangle->compatible(*pContainer))
+                    {
+                        insertion =
+                            insertItemToContainer(pContainer, pRectangle.get());
+                    }
+                    ++containerIter;
                 }
             }
             // если не смогли вставить в существующие контейнеры -
