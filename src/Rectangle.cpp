@@ -153,8 +153,8 @@ bool Rectangle::intersection(const Rectangle& other) const
       *std::min_element(dotProductsOther.begin(), dotProductsOther.end());
     // если проекция не пересекаются -
     // можно смело говорить что прямоугольники не пересекаются 
-    if ( (ourMaxElement < otherMinElement) ||
-	 (otherMaxElement < ourMinElement))
+    if ( (ourMaxElement <= otherMinElement) ||
+	     (otherMaxElement <= ourMinElement))
     {
       return false;
     }
