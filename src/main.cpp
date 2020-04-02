@@ -56,30 +56,29 @@ public:
     }
     bool insertItemToContainer(Container* pContainer, Rectangle* pRectangle)
     {
-
-          /*
         // если доступной площади нет - сразу выходим
         if (!pRectangle->insertAreaAvailable(*pContainer))
         {
           return false;
         }
-            pRectangle->setCoordinates(coordX, coordY, angleInit);
-            axes_x_position_good = 
-                pRectangle->packingCheck_axesX(*pContainer);
-            axes_y_position_good = 
-                pRectangle->packingCheck_axesY(*pContainer);
-            // если вылезаем за пределы контейнера - надо прекращать цикл
-            // (двигаться вперед по оси бесполезно)
-            if (!axes_x_position_good || !axes_y_position_good)
+        for (auto x_coord : pContainer->getCorners_x())
+        {
+            for (auto y_coord : pContainer->getCorners_y())
             {
-                break;
+                // если не проходим по размеру - переходим к следующему варианту
+                if (!pRectangle->packingCheck_axesX(*pContainer) ||
+                    !pRectangle->packingCheck_axesY(*pContainer))
+                {
+                    continue;
+                }
+                pRectangle->setCoordinates(x_coord, y_coord, 0.0);
+                bool result = pContainer->insertRectangle(pRectangle);
+                if (result)
+                {
+                    return true;
+                }
             }
-            bool result = pContainer->insertRectangle(pRectangle);
-            if (result)
-            {
-              return true;
-            }
-        }*/
+        }
         // не удалось - выдаем соответсвующий результат 
         return false;
     }
