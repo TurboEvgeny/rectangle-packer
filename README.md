@@ -1,14 +1,14 @@
 # rectangle-packer
 packing rectangles into containers
 
-####Требования:
+#### Требования:
 - c++14 compatible компилятор
 #### Замечание
 - данная программа использует лишь углы поворота в 45, 90 и 145 градусов
 - для считывания данных из cin используется scanf, которую visual studio считает небезопасной, так как рекомендуемая scanf_s не кроссплатформенная (основная рабочая среда у меня linux/gcc). Чтобы код собирался в среде VS2019 пришлось включить директиву _CRT_SECURE_NO_WARNINGS
 
-####Сборка:
-#####1й вариант (cmake). (рекомендуемый путь) 
+#### Сборка:
+##### 1й вариант (cmake). (рекомендуемый путь) 
 - установить последний дистрибутив программы cmake
  https://cmake.org/download/
 - Далее в программе cmake-gui в поле "where is the source code"
@@ -21,5 +21,5 @@ packing rectangles into containers
 - нажмите кнопку "Generate", дождитесь надписи Generating done 
 - чтобы открыть проект нажмите "Open Project", либо пройдите в папку для сборки
 
-#####2й вариант (Visual studio 2019)
+##### 2й вариант (Visual studio 2019)
 - в проекте лежат sln и vcproj файлы для IDE Visual Stuido 2019
