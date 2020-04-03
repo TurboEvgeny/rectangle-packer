@@ -8,73 +8,96 @@ Rectangle::Rectangle(double w, double h):
   height(h),
   angleRad(0.0)
 {
-  this->setCoordinates(0.0, 0.0, 0.0);
+    this->setCoordinates(0.0, 0.0, 0.0);
 }
 
 // установка координат
 void Rectangle::setCoordinates(double x0, double y0, double ang)
 {
-  this->coord[RECTANGLE_LEFT_DOWN] = MyVector(x0, y0);
+    this->coord[RECTANGLE_LEFT_DOWN] = MyVector(x0, y0);
 
-  this->coord[RECTANGLE_LEFT_UP] = MyVector(
-    x0 - this->height*sin(ang),
-    y0 + this->height*cos(ang));
+    this->coord[RECTANGLE_LEFT_UP] = MyVector(
+      x0 - this->height*sin(ang),
+      y0 + this->height*cos(ang));
 
-  this->coord[RECTANGLE_RIGHT_UP]= MyVector(
-    x0 + this->width * cos(ang) - this->height*sin(ang),
-    y0 + this->width * sin(ang) + this->height*cos(ang));
+    this->coord[RECTANGLE_RIGHT_UP]= MyVector(
+      x0 + this->width * cos(ang) - this->height*sin(ang),
+      y0 + this->width * sin(ang) + this->height*cos(ang));
 
-  this->coord[RECTANGLE_RIGHT_DOWN] = MyVector(
-    x0 + this->width * cos(ang),
-    y0 + this->width * sin(ang));
+    this->coord[RECTANGLE_RIGHT_DOWN] = MyVector(
+      x0 + this->width * cos(ang),
+      y0 + this->width * sin(ang));
+    // если координаты оказались ниже или левее базового угла (левый нижний),
+    // то прямоугольник смещаем на разницу
+    double minX = std::min<double>(
+        { this->coord[RECTANGLE_LEFT_DOWN].getX(),
+        this->coord[RECTANGLE_LEFT_UP].getX(),
+        this->coord[RECTANGLE_RIGHT_UP].getX(),
+        this->coord[RECTANGLE_RIGHT_DOWN].getX() }
+        );
+    double minY = std::min<double>(
+        { this->coord[RECTANGLE_LEFT_DOWN].getY(),
+        this->coord[RECTANGLE_LEFT_UP].getY(),
+        this->coord[RECTANGLE_RIGHT_UP].getY(),
+        this->coord[RECTANGLE_RIGHT_DOWN].getY() }
+        );
+    // узнаем разницу с базовый элементов
+    double diffX = this->coord[RECTANGLE_LEFT_DOWN].getX() - minX;
+    double diffY = this->coord[RECTANGLE_LEFT_DOWN].getY() - minY;
+    // сдвигаем на разницу
+    MyVector diff(diffX, diffY);
+    for (int i = 0; i < RECTANGLE_CORNERS; i++)
+    {
+        this->coord[i] = this->coord[i] + diff;
+    }
 }
 
 double Rectangle::getArea() const
 {
-  return this->width * this->height;
+    return this->width * this->height;
 }
 
 // расчет возможности упаковки в контейнер размером (w, h)
 // возвращает возможность упаковки
 bool Rectangle::compatible(const Container& container) const
 {
-  // проверка простая -
-  // если периметр нашего прямоугольника меньше периметра контейнера,
-  // то значит существует угол поворота, при котором наш прямоугольник
-  // влезет в контейнер
-  bool perimeterOk = (this->width + this->height) <=
-    (container.getWidth() + container.getHeight());
-  bool areaOk = (this->getArea() < container.getArea());
-  return perimeterOk && areaOk;
+    // проверка простая -
+    // если периметр нашего прямоугольника меньше периметра контейнера,
+    // то значит существует угол поворота, при котором наш прямоугольник
+    // влезет в контейнер
+    bool perimeterOk = (this->width + this->height) <=
+      (container.getWidth() + container.getHeight());
+    bool areaOk = (this->getArea() <= container.getArea());
+    return perimeterOk && areaOk;
 }
 
 // расчет возможности контейнера принять прямоугольник
 // исходя из доступной  площади
 bool Rectangle::insertAreaAvailable(const Container& container) const
 {
-  return this->getArea() < container.getAvailableArea();
+    return this->getArea() <= container.getAvailableArea();
 }
 
 // расчет вхождения в контейнерж
 bool Rectangle::packingCheck_axesX(const Container& container) const
 {
-  // допустимая точность
-  const double eps = 1e-5;
-  // критерий вхождения - проекции прямоугольника на оси контейнера
-  // попадают в отрезок, который образую вершины контейнера
-  for (int i = 0 ; i < RECTANGLE_CORNERS ; i++)
-  {
-    bool axes_x_notcompatible =
-      (this->coord[i].getX() < 0.0) ||
-      ((container.getWidth() + eps) < this->coord[i].getX());
-    if (axes_x_notcompatible)
+    // допустимая точность
+    const double eps = 1e-5;
+    // критерий вхождения - проекции прямоугольника на оси контейнера
+    // попадают в отрезок, который образую вершины контейнера
+    for (int i = 0 ; i < RECTANGLE_CORNERS ; i++)
     {
-      return false;
+      bool axes_x_notcompatible =
+        (this->coord[i].getX() < 0.0) ||
+        ((container.getWidth() + eps) < this->coord[i].getX());
+      if (axes_x_notcompatible)
+      {
+        return false;
+      }
     }
-  }
-  // если мы успешно прошли все циклы -
-  //значит наш прямоугольник может войти в container
-  return true;
+    // если мы успешно прошли все циклы -
+    //значит наш прямоугольник может войти в container
+    return true;
 }
 
 // добавить координаты вершин в unordered_set

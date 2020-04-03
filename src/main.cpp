@@ -3,6 +3,7 @@
 #include <cmath>
 #include <memory>
 #include <algorithm>
+#include <cmath>
 #include "Rectangle.h"
 #include "Container.h"
 #define MAX_RECTANGLES_NUMBER 100
@@ -23,6 +24,12 @@ public:
     {
     }
 
+    std::vector<double> getTurningAngles()
+    {
+        const double pi = 3.141592653589793238462643383279;
+        return { 0.0, pi / 2.0, pi / 4.0 , 3.0 * pi / 4.0 };
+    }
+
     void readInput()
     {
         int iteration = 0;
@@ -36,7 +43,8 @@ public:
             // проверяем - корректны ли данные
             // (если некорректные - завершаем цикл)
             dataExists = (fabs(w) >=  eps) && (fabs(h) >= eps);
-            if (dataExists)
+            // прописываем ограничение на максимальное количество прямоугольников
+            if (dataExists && (iteration <= MAX_RECTANGLES_NUMBER))
             {
             // первая строчка - размер контейнера
                 if (iteration == 0)
@@ -54,6 +62,7 @@ public:
             }
         }      
     }
+    // функция размеещения объекта в контейнере
     bool insertItemToContainer(Container* pContainer, Rectangle* pRectangle)
     {
         // если доступной площади нет - сразу выходим
@@ -61,22 +70,29 @@ public:
         {
           return false;
         }
+        // узнаем доступные начальные координаты для размещения объекта
+        // (это вершины объектов, которые находятся внутри контейнера + 
+        // нулевая координата контейнера)
         for (auto x_coord : pContainer->getCorners_x())
         {
             for (auto y_coord : pContainer->getCorners_y())
             {
-                pRectangle->setCoordinates(x_coord, y_coord, 0.0);
-                // если не проходим по размеру - переходим к следующему варианту
-                if (!pRectangle->packingCheck_axesX(*pContainer) ||
-                    !pRectangle->packingCheck_axesY(*pContainer))
+                // пробуем все углы из списка
+                for (auto angle : this->getTurningAngles())
                 {
-                    continue;
-                }
-                // пробуем добавить в контейнер - если все хрошо, 
-                // то выходим из функции
-                if (pContainer->insertRectangle(pRectangle))
-                {
-                    return true;
+                    pRectangle->setCoordinates(x_coord, y_coord, angle);
+                    // если не проходим по размеру - переходим к следующему варианту
+                    if (!pRectangle->packingCheck_axesX(*pContainer) ||
+                        !pRectangle->packingCheck_axesY(*pContainer))
+                    {
+                        continue;
+                    }
+                    // пробуем добавить в контейнер - если все хрошо, 
+                    // то выходим из функции
+                    if (pContainer->insertRectangle(pRectangle))
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -164,7 +180,5 @@ int main()
     data.readInput();
     data.packContainers();
     data.print();
-    int a = 4;
-    std::cin >> a;
     return 0;
 }
